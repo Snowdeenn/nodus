@@ -1,6 +1,6 @@
-use utils::colors;
-use utils::ids::{MaterialId, TextureId};
-use utils::math::Vec2;
+use math::Vec2;
+use prism::draw::colors;
+use prism::ids::{MaterialId, TextureId};
 
 pub enum DrawCommand {
     Rect {
@@ -62,7 +62,7 @@ impl DrawCommandBuffer {
     }
 
     pub fn sort(&mut self) {
-        self.buffer.sort_unstable_by_key(|cmd| sort_key(cmd));
+        self.buffer.sort_unstable_by_key(sort_key);
     }
 
     pub fn collect_into(&self, frame: &mut prism::Frame) {

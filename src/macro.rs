@@ -34,7 +34,7 @@ macro_rules! text_label {
 #[macro_export]
 macro_rules! progress_bar {
     // Variant simple : deux rects colorés
-    (ctx: $ctx:expr, parent: $parent:expr, anchor: $anchor:expr, 
+    (ctx: $ctx:expr, parent: $parent:expr, anchor: $anchor:expr,
         offset: $offset:expr, size: $size:expr, bg: $bg:expr, fill: $fill:expr, $(,)?) => {{
         use ui::node::{Anchor, LayoutProps, UiUnit, UiVec2, VisualKind, VisualProps};
 
@@ -104,7 +104,7 @@ macro_rules! progress_bar {
 
 #[macro_export]
 macro_rules! bouton {
-    (ctx: $ctx:expr, parent: $parent:expr, anchor: $anchor:expr, offset: $offset:expr, 
+    (ctx: $ctx:expr, parent: $parent:expr, anchor: $anchor:expr, offset: $offset:expr,
         size: $size:expr, normal: $normal:expr, hover: $hover:expr, pressed: $pressed:expr, $(,)?) => {{
         use ui::input::{ButtonStyle, Interact, InteractState};
         use ui::node::{Anchor, LayoutProps, VisualKind, VisualProps};

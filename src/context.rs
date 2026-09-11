@@ -10,9 +10,9 @@ use crate::{
     layout::compute_anchor_pos,
     node::{Anchor, LayoutProps, UiNode, VisualProps},
 };
+use math::Vec2;
+use prism::arena::*;
 use std::collections::{HashSet, VecDeque};
-use utils::arena::*;
-use utils::math::Vec2;
 
 pub struct UiContext {
     arena: Arena<UiNode>,
@@ -66,12 +66,11 @@ impl UiContext {
     }
 
     pub fn remove_node(&mut self, id: NodeId) {
-        if let Some(node) = self.arena.get(id) {
-            if let Some(parent_id) = node.parent {
-                if let Some(parent) = self.arena.get_mut(parent_id) {
-                    parent.children.retain(|c| *c != id);
-                }
-            }
+        if let Some(node) = self.arena.get(id)
+            && let Some(parent_id) = node.parent
+            && let Some(parent) = self.arena.get_mut(parent_id)
+        {
+            parent.children.retain(|c| *c != id);
         }
 
         self.arena.remove(id);
@@ -265,11 +264,11 @@ impl UiContext {
                     }
                 }
                 UIEvent::SetText { target, content } => {
-                    if let Some(node) = self.arena.get_mut(target) {
-                        if let VisualKind::Text { content: c, .. } = &mut node.visual.kind {
-                            *c = content;
-                            node.dirty.visual_dirty = true;
-                        }
+                    if let Some(node) = self.arena.get_mut(target)
+                        && let VisualKind::Text { content: c, .. } = &mut node.visual.kind
+                    {
+                        *c = content;
+                        node.dirty.visual_dirty = true;
                     }
                 }
             }
@@ -287,13 +286,20 @@ impl UiContext {
 
         self.process_event();
 
-        let need_resolve_layout = self.arena.iter().any(|node| node.dirty.layout_dirty);
+        let order = self.build_traversal_order();
+        let need_resolve_layout = order.iter().any(|id| {
+            self.arena
+                .get(*id)
+                .is_some_and(|node| node.dirty.layout_dirty)
+        });
         if need_resolve_layout {
             self.resolve_layout();
         }
-        for node in self.arena.iter_mut() {
-            node.dirty.layout_dirty = false;
-            node.dirty.visual_dirty = false;
+        for id in order {
+            if let Some(node) = self.arena.get_mut(id) {
+                node.dirty.layout_dirty = false;
+                node.dirty.visual_dirty = false;
+            }
         }
     }
 

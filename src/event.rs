@@ -1,6 +1,6 @@
 use crate::NodeId;
 use crate::node::UiVec2;
-use utils::colors;
+use prism::draw::colors;
 
 #[derive(Clone)]
 pub enum UIEvent {
@@ -28,8 +28,8 @@ pub enum UIEvent {
 
     SetMaterial {
         target: NodeId,
-        id: utils::ids::MaterialId,
-        texture_id: Option<utils::ids::TextureId>,
+        id: prism::ids::MaterialId,
+        texture_id: Option<prism::ids::TextureId>,
         uniform_data: Vec<u8>,
     },
 

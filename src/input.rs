@@ -1,4 +1,4 @@
-use utils::colors::Color;
+use prism::Color;
 
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub enum InteractState {

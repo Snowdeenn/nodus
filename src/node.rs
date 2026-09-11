@@ -1,10 +1,10 @@
+use math::Vec2;
+use prism::draw::colors;
 use std::ops::{Add, Div, Mul, Sub};
-use utils::colors;
-use utils::math::Vec2;
 
 use crate::NodeId;
 use crate::input::Interact;
-use utils::ids::TextureId;
+use prism::ids::TextureId;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum Anchor {
@@ -42,7 +42,7 @@ pub enum VisualKind {
         id: TextureId,
     },
     Material {
-        material_id: utils::ids::MaterialId,
+        material_id: prism::ids::MaterialId,
         texture_id: Option<TextureId>,
         uniform_data: Vec<u8>,
     },

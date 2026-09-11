@@ -1,5 +1,5 @@
-use utils::colors;
-use utils::math::Vec2;
+use math::Vec2;
+use prism::draw::colors;
 
 use crate::{NodeId, event::UIEvent, node::UiVec2};
 
@@ -105,7 +105,7 @@ impl TweenEngine {
             let t_ease = (tween.easing)(t);
             if tween.elapsed >= tween.duration {
                 tween.done = true;
-                self.event.extend(tween.on_complete.drain(..));
+                self.event.append(&mut tween.on_complete);
             }
 
             match tween.property {
